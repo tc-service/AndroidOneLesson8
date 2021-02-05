@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 
 import com.technocopy.androidonelesson8.R;
+import com.technocopy.androidonelesson8.data.CardsSource;
+import com.technocopy.androidonelesson8.data.CardsSourceImpl;
 import com.technocopy.androidonelesson8.ui.MyNoteAdapter;
 
 
@@ -30,12 +32,15 @@ public class MyNotesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-        String[] data = getResources().getStringArray(R.array.titles);
+//        String[] data = getResources().getStringArray(R.array.titles);
+
+        // Получим источник данных для списка
+        CardsSource data = new CardsSourceImpl(getResources()).init();
         initRecyclerView(recyclerView, data);
         return view;
     }
 
-    private void initRecyclerView(RecyclerView recyclerView, String[] data){
+    private void initRecyclerView(RecyclerView recyclerView, CardsSource data){
 
         // Эта установка служит для повышения производительности системы
         recyclerView.setHasFixedSize(true);
@@ -52,7 +57,8 @@ public class MyNotesFragment extends Fragment {
         adapter.SetOnItemClickListener(new MyNoteAdapter.MyClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), String.format("%s - %d", ((TextView)view).getText(), position), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), String.format("%s - %d", ((TextView)view).getText(), position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), String.format("Позиция - %d", position), Toast.LENGTH_SHORT).show();
             }
         });
 
