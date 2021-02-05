@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.technocopy.androidonelesson8.R;
@@ -43,8 +45,16 @@ public class MyNotesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // Установим адаптер
-        MyNoteAdapter adapter = new MyNoteAdapter(data);
+        final MyNoteAdapter adapter = new MyNoteAdapter(data);
         recyclerView.setAdapter(adapter);
-    }
 
+        // Установим слушателя
+        adapter.SetOnItemClickListener(new MyNoteAdapter.MyClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), String.format("%s - %d", ((TextView)view).getText(), position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 }

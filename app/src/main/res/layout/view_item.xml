@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="#FAEABB"
     android:foregroundGravity="center_vertical"
     app:layout_anchorGravity="center"
     tools:context=".ui.MyNotesFragment">

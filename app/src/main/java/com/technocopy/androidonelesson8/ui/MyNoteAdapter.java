@@ -3,6 +3,7 @@ package com.technocopy.androidonelesson8.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,21 +15,32 @@ import com.technocopy.androidonelesson8.R;
 public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHolder> {
 
     private String[] dataSource;
+    private MyClickListener myClickListener;
+
+//    private AdapterView.OnItemClickListener itemClickListener;  // Слушатель будет устанавливаться извне
+
     public MyNoteAdapter(String[] dataSource){
         this.dataSource = dataSource;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false);
+    public MyNoteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false);
+//        return new MyViewHolder(v);
+        View v = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.view_item, viewGroup, false);
+        // Здесь можно установить всякие параметры
         return new MyViewHolder(v);
     }
 
     //передаем данные в созданный ViewHolder
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.onBind(dataSource[position]);
+    public void onBindViewHolder(@NonNull MyNoteAdapter.MyViewHolder viewHolder, int i) {
+        // Получить элемент из источника данных (БД, интернет...)
+        // Вынести на экран, используя ViewHolder
+        viewHolder.getTextView().setText(dataSource[i]);
+
 
     }
 
@@ -36,6 +48,17 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     public int getItemCount() {
         return dataSource.length;
     }
+
+    // Сеттер слушателя нажатий
+    public void SetOnItemClickListener(MyClickListener itemClickListener){
+        myClickListener = itemClickListener;
+    }
+
+    // Интерфейс для обработки нажатий, как в ListView
+    public interface MyClickListener {
+        void onItemClick(View view , int position);
+    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
@@ -47,11 +70,24 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
             super(itemView);
             textView = itemView.findViewById(R.id.tvNote);
             imageView = itemView.findViewById(R.id.imNoteName);
+
+//            textView = (TextView)itemView;
+//            imageView = (ImageView) itemView;
+
+            // Обработчик нажатий на этом ViewHolder
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (myClickListener != null) {
+                        myClickListener.onItemClick(v, getAdapterPosition());
+                    }
+                }
+            });
         }
 
-        public void onBind(String s){
-            textView.setText(s);
-            imageView.setImageResource(R.drawable.daily_notes);
-        }
+
+public TextView getTextView() {
+    return textView;
+}
     }
 }
