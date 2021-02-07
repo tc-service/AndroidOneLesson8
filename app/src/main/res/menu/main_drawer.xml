@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/daily_notes"
+            android:title="@string/my_notes" />
+        <item
+            android:id="@+id/nav_car"
+            android:icon="@drawable/car_notes"
+            android:title="@string/My_car" />
+        <item
+            android:id="@+id/nav_health"
+            android:icon="@drawable/health_notes"
+            android:title="@string/My_health" />
+    </group>
+
+
+</menu>
