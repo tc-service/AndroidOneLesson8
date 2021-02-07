@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,12 +20,9 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
 
     private final static String TAG = "SocialNetworkAdapter";
 
-//    private String[] dataSource;
     private CardsSource dataSource;
 
     private MyClickListener myClickListener;
-
-//    private AdapterView.OnItemClickListener itemClickListener;  // Слушатель будет устанавливаться извне
 
     public MyNoteAdapter(CardsSource dataSource){
         this.dataSource = dataSource;
@@ -35,8 +31,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     @NonNull
     @Override
     public MyNoteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false);
-//        return new MyViewHolder(v);
+
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.view_item, viewGroup, false);
 
@@ -50,11 +45,8 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyNoteAdapter.MyViewHolder viewHolder, int i) {
         // Получить элемент из источника данных (БД, интернет...)
         // Вынести на экран, используя ViewHolder
-//        viewHolder.getTextView().setText(dataSource[i]);
         viewHolder.setData(dataSource.getCardData(i));
         Log.d(TAG, "onBindViewHolder");
-
-
     }
 
     @Override
@@ -73,11 +65,8 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         void onItemClick(View view , int position);
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-//        private TextView textView;
-//        private ImageView imageView;
         private TextView title;
         private TextView description;
         private AppCompatImageView image;
@@ -86,16 +75,10 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         public MyViewHolder(@NonNull View itemView) {
 
             super(itemView);
-//            textView = itemView.findViewById(R.id.tvNote);
-//            imageView = itemView.findViewById(R.id.imNoteName);
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.imageView);
             like = itemView.findViewById(R.id.like);
-
-
-//            textView = (TextView)itemView;
-//            imageView = (ImageView) itemView;
 
             // Обработчик нажатий на этом ViewHolder
             image.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +96,5 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
             like.setChecked(cardData.isLike());
             image.setImageResource(cardData.getPicture());
         }
-
-
-//public TextView getTextView() {
-//    return textView;
-//}
     }
 }
