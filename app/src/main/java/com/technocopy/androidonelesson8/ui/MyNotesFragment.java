@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +31,7 @@ import com.technocopy.androidonelesson8.ui.MyNoteAdapter;
 
 public class MyNotesFragment extends Fragment {
 
+    private static final int MY_DEFAULT_DURATION = 1000;
     private CardsSource data;
     private MyNoteAdapter adapter;
     private RecyclerView recyclerView;
@@ -68,7 +71,7 @@ public class MyNotesFragment extends Fragment {
                         R.drawable.petropavl_krep,
                         false));
                 adapter.notifyItemInserted(data.size() - 1);
-                recyclerView.scrollToPosition(data.size() - 1);
+                recyclerView.smoothScrollToPosition(data.size() - 1);
                 return true;
             case R.id.action_clear:
                 data.clearCardData();
@@ -99,6 +102,17 @@ public class MyNotesFragment extends Fragment {
        adapter = new MyNoteAdapter(data, this);
         recyclerView.setAdapter(adapter);
 
+        // Добавим разделитель карточек
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+        recyclerView.addItemDecoration(itemDecoration);
+
+        // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(MY_DEFAULT_DURATION);
+        animator.setRemoveDuration(MY_DEFAULT_DURATION);
+        recyclerView.setItemAnimator(animator);
+
         // Установим слушателя
         adapter.SetOnItemClickListener(new MyNoteAdapter.MyClickListener() {
             @Override
@@ -118,12 +132,19 @@ public class MyNotesFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getMenuPosition();
         switch(item.getItemId()) {
             case R.id.action_update:
-                // Do some stuff
+                data.updateCardData(position,
+                        new CardData("Кадр " + position,
+                                data.getCardData(position).getDescription(),
+                                data.getCardData(position).getPicture(),
+                                false));
+                adapter.notifyItemChanged(position);
                 return true;
             case R.id.action_delete:
-                // Do some stuff
+                data.deleteCardData(position);
+                adapter.notifyItemRemoved(position);
                 return true;
         }
         return super.onContextItemSelected(item);

@@ -23,6 +23,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     private final CardsSource dataSource;
     private MyClickListener myClickListener;
     private final Fragment fragment;
+    private int menuPosition;
 
     public MyNoteAdapter(CardsSource dataSource, Fragment fragment){
         this.dataSource = dataSource;
@@ -61,6 +62,10 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         myClickListener = itemClickListener;
     }
 
+    public int getMenuPosition() {
+        return menuPosition;
+    }
+
     // Интерфейс для обработки нажатий, как в ListView
     public interface MyClickListener {
         void onItemClick(View view , int position);
@@ -96,6 +101,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
             image.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
                     itemView.showContextMenu(10, 10);
                     return true;
                 }
@@ -104,6 +110,13 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
 
         private void registerContextMenu(@NonNull View itemView) {
             if (fragment != null){
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        menuPosition = getLayoutPosition();
+                        return false;
+                    }
+                });
                 fragment.registerForContextMenu(itemView);
             }
         }
