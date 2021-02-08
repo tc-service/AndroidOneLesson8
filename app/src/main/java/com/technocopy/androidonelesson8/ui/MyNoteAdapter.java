@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.technocopy.androidonelesson8.R;
@@ -19,13 +20,13 @@ import com.technocopy.androidonelesson8.data.CardsSource;
 public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHolder> {
 
     private final static String TAG = "SocialNetworkAdapter";
-
-    private CardsSource dataSource;
-
+    private final CardsSource dataSource;
     private MyClickListener myClickListener;
+    private final Fragment fragment;
 
-    public MyNoteAdapter(CardsSource dataSource){
+    public MyNoteAdapter(CardsSource dataSource, Fragment fragment){
         this.dataSource = dataSource;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -72,13 +73,14 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         private AppCompatImageView image;
         private CheckBox like;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull final View itemView) {
 
             super(itemView);
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.imageView);
             like = itemView.findViewById(R.id.like);
+            registerContextMenu(itemView);
 
             // Обработчик нажатий на этом ViewHolder
             image.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +91,23 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
                     }
                 }
             });
+
+            // Обработчик нажатий на картинке
+            image.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    itemView.showContextMenu(10, 10);
+                    return true;
+                }
+            });
         }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null){
+                fragment.registerForContextMenu(itemView);
+            }
+        }
+
         public void setData(CardData cardData){
             title.setText(cardData.getTitle());
             description.setText(cardData.getDescription());
