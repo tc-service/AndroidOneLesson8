@@ -17,12 +17,15 @@ import com.technocopy.androidonelesson8.R;
 import com.technocopy.androidonelesson8.data.CardData;
 import com.technocopy.androidonelesson8.data.CardsSource;
 
+import java.text.SimpleDateFormat;
+
 public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHolder> {
 
-    private final static String TAG = "SocialNetworkAdapter";
-    private final CardsSource dataSource;
-    private MyClickListener myClickListener;
+    private final static String TAG = "MyNotesAdapter";
+    private CardsSource dataSource;
     private final Fragment fragment;
+
+    private MyClickListener myClickListener;
     private int menuPosition;
 
     public MyNoteAdapter(CardsSource dataSource, Fragment fragment){
@@ -77,6 +80,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         private TextView description;
         private AppCompatImageView image;
         private CheckBox like;
+        private TextView date;
 
         public MyViewHolder(@NonNull final View itemView) {
 
@@ -85,6 +89,8 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
             description = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.imageView);
             like = itemView.findViewById(R.id.like);
+            date = itemView.findViewById(R.id.date);
+
             registerContextMenu(itemView);
 
             // Обработчик нажатий на этом ViewHolder
@@ -96,8 +102,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
                     }
                 }
             });
-
-            // Обработчик нажатий на картинке
+            // Обработчик долгих нажатий на картинке
             image.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -126,6 +131,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
             description.setText(cardData.getDescription());
             like.setChecked(cardData.isLike());
             image.setImageResource(cardData.getPicture());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(cardData.getDate()));
         }
     }
 }

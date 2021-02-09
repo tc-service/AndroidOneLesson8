@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
-public class CardData implements Parcelable {
+public class CardData implements Parcelable{
     private String title;       // заголовок
     private String description; // описание
     private int picture;        // изображение
