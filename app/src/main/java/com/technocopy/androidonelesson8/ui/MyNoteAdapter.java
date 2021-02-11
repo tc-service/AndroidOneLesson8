@@ -10,22 +10,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.technocopy.androidonelesson8.R;
 import com.technocopy.androidonelesson8.data.CardData;
 import com.technocopy.androidonelesson8.data.CardsSource;
 
+import java.text.SimpleDateFormat;
+
 public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHolder> {
 
-    private final static String TAG = "SocialNetworkAdapter";
-
+    private final static String TAG = "MyNotesAdapter";
     private CardsSource dataSource;
+    private final Fragment fragment;
 
     private MyClickListener myClickListener;
+    private int menuPosition;
 
-    public MyNoteAdapter(CardsSource dataSource){
+    public MyNoteAdapter(CardsSource dataSource, Fragment fragment){
         this.dataSource = dataSource;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -60,6 +65,10 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         myClickListener = itemClickListener;
     }
 
+    public int getMenuPosition() {
+        return menuPosition;
+    }
+
     // Интерфейс для обработки нажатий, как в ListView
     public interface MyClickListener {
         void onItemClick(View view , int position);
@@ -71,14 +80,18 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
         private TextView description;
         private AppCompatImageView image;
         private CheckBox like;
+        private TextView date;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull final View itemView) {
 
             super(itemView);
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.imageView);
             like = itemView.findViewById(R.id.like);
+            date = itemView.findViewById(R.id.date);
+
+            registerContextMenu(itemView);
 
             // Обработчик нажатий на этом ViewHolder
             image.setOnClickListener(new View.OnClickListener() {
@@ -89,12 +102,36 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
                     }
                 }
             });
+            // Обработчик долгих нажатий на картинке
+            image.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
+                    itemView.showContextMenu(10, 10);
+                    return true;
+                }
+            });
         }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null){
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        menuPosition = getLayoutPosition();
+                        return false;
+                    }
+                });
+                fragment.registerForContextMenu(itemView);
+            }
+        }
+
         public void setData(CardData cardData){
             title.setText(cardData.getTitle());
             description.setText(cardData.getDescription());
             like.setChecked(cardData.isLike());
             image.setImageResource(cardData.getPicture());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(cardData.getDate()));
         }
     }
 }
