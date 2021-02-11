@@ -19,7 +19,7 @@ public class CardsSourceImpl implements CardsSource {
         this.resources = resources;
     }
 
-    public CardsSourceImpl init(){
+    public CardsSource init(CardsSourceResponse cardsSourceResponse){
         // строки заголовков из ресурсов
         String[] titles = resources.getStringArray(R.array.titles);
         // строки описаний из ресурсов
@@ -29,6 +29,9 @@ public class CardsSourceImpl implements CardsSource {
         // заполнение источника данных
         for (int i = 0; i < descriptions.length; i++) {
             dataSource.add(new CardData(titles[i], descriptions[i], pictures[i], false, Calendar.getInstance().getTime()));
+        }
+        if (cardsSourceResponse != null){
+            cardsSourceResponse.initialized(this);
         }
         return this;
     }

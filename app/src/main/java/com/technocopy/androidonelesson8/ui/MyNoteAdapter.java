@@ -28,9 +28,13 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     private MyClickListener myClickListener;
     private int menuPosition;
 
-    public MyNoteAdapter(CardsSource dataSource, Fragment fragment){
-        this.dataSource = dataSource;
+    public MyNoteAdapter(Fragment fragment){
+//        this.dataSource = dataSource;
         this.fragment = fragment;
+    }
+    public void setDataSource(CardsSource dataSource){
+        this.dataSource = dataSource;
+        notifyDataSetChanged();
     }
 
     @NonNull
