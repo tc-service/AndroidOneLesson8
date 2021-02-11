@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "651531540193",
+    "project_id": "androidonelesson8-c36bf",
+    "storage_bucket": "androidonelesson8-c36bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651531540193:android:d8f0bb3d6c042f8b6f49a0",
+        "android_client_info": {
+          "package_name": "com.technocopy.androidonelesson8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651531540193-7v1dg6e49cmm7dpe6ntg61dri3425h77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxDcJGNDFw6FbyUlScI-WgJwMHLnOLwxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651531540193-7v1dg6e49cmm7dpe6ntg61dri3425h77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
