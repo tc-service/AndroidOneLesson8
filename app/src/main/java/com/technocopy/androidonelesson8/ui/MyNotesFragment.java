@@ -47,25 +47,11 @@ public class MyNotesFragment extends Fragment {
         return new MyNotesFragment();
     }
 
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        // Получим источник данных для списка
-//        // Поскольку onCreateView запускается каждый раз
-//        // при возврате в фрагмент, данные надо создавать один раз
-//        data = new CardsSourceImpl(getResources()).init();
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
-//        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
-        // Получим источник данных для списка
-//        data = new CardsSourceImpl(getResources()).init();
-//        initRecyclerView(recyclerView, data);
-
         initView(view);
         setHasOptionsMenu(true);
         data = new CardSourceFirebaseImpl().init(new CardsSourceResponse() {
@@ -100,33 +86,7 @@ public class MyNotesFragment extends Fragment {
 //
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.action_add:
-////                data.addCardData(new CardData("Заголовок " + data.size(),
-////                        "Описание " + data.size(),
-////                        R.drawable.petropavl_krep,
-////                        false, Calendar.getInstance().getTime()));
-//                adapter.notifyItemInserted(data.size() - 1);
-//                recyclerView.smoothScrollToPosition(data.size() - 1);
-////                recyclerView.scrollToPosition(data.size() - 1);
-//                navigation.addFragment(CardFragment.newInstance(), true);
-//                publisher.subscribe(new Observer() {
-//                    @Override
-//                    public void updateCardData(CardData cardData) {
-//                        data.addCardData(cardData);
-//                        adapter.notifyItemInserted(data.size() - 1);
-//                        // это сигнал, чтобы вызванный метод onCreateView
-//                        // перепрыгнул на конец списка
-//                        moveToLastPosition = true;
-//                    }
-//                });
-//                return true;
-//            case R.id.action_clear:
-//                data.clearCardData();
-//                adapter.notifyDataSetChanged();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
+
         return onItemSelected(item.getItemId()) || super.onOptionsItemSelected(item);
     }
 
@@ -149,21 +109,13 @@ public class MyNotesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-//        // Добавим разделитель карточек
-//        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),  LinearLayoutManager.VERTICAL);
-//        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
-//        recyclerView.addItemDecoration(itemDecoration);
-
         // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(MY_DEFAULT_DURATION);
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
 
-//        if (moveToLastPosition){
-//            recyclerView.smoothScrollToPosition(data.size() - 1);
-//            moveToLastPosition = false;
-//        }
+
         if (moveToFirstPosition && data.size() > 0){
             recyclerView.scrollToPosition(0);
             moveToFirstPosition = false;
@@ -185,33 +137,8 @@ public class MyNotesFragment extends Fragment {
         inflater.inflate(R.menu.card_menu, menu);
     }
 
-
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-//        int position = adapter.getMenuPosition();
-//        switch(item.getItemId()) {
-//            case R.id.action_update:
-////                data.updateCardData(position,
-////                        new CardData("Кадр " + position,
-////                                data.getCardData(position).getDescription(),
-////                                data.getCardData(position).getPicture(),
-////                                false, Calendar.getInstance().getTime()));
-////                adapter.notifyItemChanged(position);
-//                navigation.addFragment(CardFragment.newInstance(data.getCardData(position)), true);
-//                publisher.subscribe(new Observer() {
-//                    @Override
-//                    public void updateCardData(CardData cardData) {
-//                        data.updateCardData(position, cardData);
-//                        adapter.notifyItemChanged(position);
-//                    }
-//                });
-//                return true;
-//            case R.id.action_delete:
-//                data.deleteCardData(position);
-//                adapter.notifyItemRemoved(position);
-//                return true;
-//        }
-//        return super.onContextItemSelected(item);
 
         return onItemSelected(item.getItemId()) || super.onContextItemSelected(item);
     }

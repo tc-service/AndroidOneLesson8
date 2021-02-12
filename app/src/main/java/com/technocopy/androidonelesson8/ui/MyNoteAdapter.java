@@ -29,7 +29,6 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.MyViewHold
     private int menuPosition;
 
     public MyNoteAdapter(Fragment fragment){
-//        this.dataSource = dataSource;
         this.fragment = fragment;
     }
     public void setDataSource(CardsSource dataSource){
