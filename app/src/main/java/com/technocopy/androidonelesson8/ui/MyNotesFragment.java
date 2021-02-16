@@ -1,11 +1,13 @@
 package com.technocopy.androidonelesson8.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -169,10 +171,30 @@ public class MyNotesFragment extends Fragment {
                 });
                 return true;
             case R.id.action_delete:
-                int deletePosition = adapter.getMenuPosition();
-                data.deleteCardData(deletePosition);
-                adapter.notifyItemRemoved(deletePosition);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                // В билдере указываем заголовок окна. Можно указывать как ресурс,
+                // так и строку
+                builder.setTitle(R.string.exclamation)
+                        // Указываем сообщение в окне. Также есть вариант со
+                        // строковым параметром
+                        .setMessage(R.string.press_button)
+
+                        .setCancelable(true)
+                        // Устанавливаем кнопку. Название кнопки также можно
+                        // задавать строкой
+                        .setPositiveButton(R.string.buttonOk,
+                                // Ставим слушатель, нажатие будем обрабатывать
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        int deletePosition = adapter.getMenuPosition();
+                                        data.deleteCardData(deletePosition);
+                                        adapter.notifyItemRemoved(deletePosition);
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
                 return true;
+
             case R.id.action_clear:
                 data.clearCardData();
                 adapter.notifyDataSetChanged();
